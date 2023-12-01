@@ -1,7 +1,17 @@
 export default function createIteratorObject(report) {
-  const result = [];
-  for (const idx of Object.values(report.allEmployees)) {
-    result.push(...idx);
-  }
-  return result;
+  let departments = Object.values(report.allEmployees);
+  let flattenedEmployees = [].concat(...departments);
+
+  let currentIndex = 0;
+
+  return {
+    next() {
+      if (currentIndex < flattenedEmployees.length) {
+        return { value: flattenedEmployees[currentIndex++], done: false };
+      } else {
+        return { done: true };
+      }
+    },
+  };
 }
+
